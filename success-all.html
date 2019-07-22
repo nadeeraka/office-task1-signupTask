@@ -28,15 +28,14 @@
         padding-top: 10px;
     }
 
-    #content {
+    /* #content {
         margin-left: 57px;
         margin-top: 40px;
     }
-
-    #register label {
+    */
+    /* #register label {
         margin-right: 5px;
     }
-
     #register input {
         padding: 5px 14px;
         border: 1px solid #d5d9da;
@@ -44,8 +43,7 @@
         width: 272px;
         font-size: 1em;
         height: 25px;
-    }
-
+    } */
     #register .short {
         font-weight: bold;
         color: #FF0000;
@@ -119,8 +117,9 @@
 
         </div>
     </div>
-    <div class="form-group clearfix">
-        <div class="col-sm-12 col-md-12" class="password-group">
+    <div class="form-group clearfix" id='content'>
+
+        <div class="col-sm-12 col-md-12" class="password-group" id="register">
 
             {{ form_widget(form.plainPassword,{ 'attr': {'class': 'form-control ' , 'placeholder' : 'Mot de passe*'}})
             }}
