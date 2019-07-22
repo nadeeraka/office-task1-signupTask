@@ -1,0 +1,115 @@
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+    {{ form_widget(form._token) }}
+    {% form_theme form ':Form:fields3.html.twig'%}
+
+    <div class="form-group clearfix">
+        <div class="col-sm-12 col-md-12">
+            <p>Statut
+            </p>
+            {{ form_widget(form.statutUser) }}
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <div class="col-sm-6 col-md-6">
+            {{ form_widget(form.username)}}
+            {{ form_widget(form.prenom, { 'attr': {'class': 'form-control','placeholder' : 'Prénom*'}}
+            ) }}
+        </div>
+        <div class="col-sm-6 col-md-6">
+            {{ form_widget(form.nom,{ 'attr': {'class': 'form-control ','placeholder' : 'Nom*'}}
+            ) }}
+        </div>
+    </div>
+
+
+    <div class="form-group clearfix">
+        <div class="col-sm-12 col-md-12">
+            <p>Date de naissance</p>
+        </div>
+        <div class="col-sm-12 col-md-12">
+            <div class='input-group date' id='datepicker1'>
+                {{ form_widget(form.dateNaissance,{ 'id' : 'datepicker' ,'attr': {'class': 'form-control ','placeholder' : 'DD-MM-YYYY'}}) }}
+                <!--span class="glyphicon glyphicon-calendar"></span-->
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group clearfix">
+        <div class="col-sm-12 col-md-12">
+            {{ form_widget(form.email,{ 'attr': {'class': 'form-control' , 'placeholder' : 'Adresse e-mail*'}}) }}
+
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <div class="col-sm-12 col-md-12">
+            {{ form_widget(form.plainPassword,{ 'attr': {'class': 'form-control ' , 'placeholder' : 'Mot de passe*'}}) }}
+        </div>
+    </div>
+
+
+    <div class="form-group clearfix">
+        <div class='inscription-cgv-container col-sm-12 col-md-12'>
+            <label for="Inscription_cgv" style=' text-align: left'>
+                <input id="Inscription_cgv" name="Inscription_cgv" required="required" type="checkbox"/>
+                J'ai lu et j'accepte les
+                <a target="_blank" href="{{ path('lighty_share_lighty_share_conditions_generales') }}" title='Conditions générales'>conditions générales
+                </a>,
+                <a target="_blank" href='{{ asset('pdf/Politique-de-confidentialité-17-octobre-2018.pdf')}}' title=''>politique de confidentialité</a>
+                et
+                <a target="_blank" href='{{ asset('pdf/LIGHTYSHARE-Notice-d-information-LPA-ARTEO-AUDIOV-2018.pdf')}} ' title=''>notice d'assurance</a>
+            </label>
+        </div>
+    </div>
+
+
+    <div class='inscription-form-submit col-md-12'>
+        <input class="submit-button red" type="submit" value="Je m'inscris">
+
+        <p>
+            <a class='' href="{{ path('lighty_share_lighty_share_connexion') }}">Se connecter avec son compte</a>
+        </p>
+    </div>
+</form>
+
+{% block script%}
+    <script crossorigin="anonymous" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+    <script>
+        const red_border = {
+            border: "3px solid #e73c3d "
+        };
+
+        const green_border = {
+            border: "3px solid #29eb07"
+        };
+
+        $("#fos_user_registration_form_email").on("change", function () {
+            apiCall();
+        });
+
+        const apiCall = () => {
+            const email = $("#fos_user_registration_form_email").val().trim();
+
+            const request = $.ajax({
+                url: `https://pozzad-email-validator.p.rapidapi.com/emailvalidator/validateEmail/${email}`,
+                type: "GET",
+
+                dataType: "json",
+                headers: {
+                    "X-RapidAPI-Host": "pozzad-email-validator.p.rapidapi.com",
+                    "X-RapidAPI-Key": "a440e3a4c3msh204eb7641a0b400p1ae281jsn4560ea04dc58"
+                }
+            }).done(function (data) {
+                if (data.isValid === false) {
+                    return $("#fos_user_registration_form_email").css(red_border);
+                } else {
+                    return $("#fos_user_registration_form_email").css(green_border);
+                }
+            });
+        };
+    </script>
+{% endblock %}
